@@ -1,17 +1,15 @@
-#!/usr/bin/node
+import express from 'express';
+import router from './routes/index';
 
-const express = require('express');
-const AppController = require('../controllers/AppController');
-const UsersController = require('../controllers/UsersController');
-const AuthController = require('../controllers/AuthController');
+const port = parseInt(process.env.PORT, 10) || 5000;
 
-const router = express.Router();
+const app = express();
 
-router.get('/status', AppController.getStatus);
-router.get('/stats', AppController.getStats);
-router.post('/users', UsersController.postNew);
-router.get('/connect', AuthController.getConnect);
-router.get('/disconnect', AuthController.getDisconnect);
-router.get('/users/me', AuthController.getMe);
+app.use(express.json());
+app.use('/', router);
 
-module.exports = router;
+app.listen(port, () => {
+  console.log(`server running on port ${port}`);
+});
+
+export default app;
